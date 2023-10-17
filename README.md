@@ -6,8 +6,6 @@ The **Extended Parachain Template** is a ready-to-use parachain template, pre-co
 
 This is a solid starting point for most Parachain projects as it is a more feature-rich alternative to the base [Substrate Parachain Template](https://github.com/substrate-developer-hub/substrate-parachain-template) (which it is derived from).
 
-This template is maintained by the **Delivery Services** team at **Parity**.
-
 ## 🚀 Getting Started
 
 ### 🦀 Rust Setup
