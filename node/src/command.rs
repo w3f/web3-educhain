@@ -71,6 +71,7 @@ impl RuntimeResolver for PathBuf {
 
 fn load_spec(id: &str) -> std::result::Result<Box<dyn ChainSpec>, String> {
 	Ok(match id {
+		"live" => Box::new(chain_spec::mainnet::mainnet_config()),
 		"dev" => Box::new(chain_spec::devnet::development_config()),
 		"" | "devnet-local" | "local" => Box::new(chain_spec::devnet::local_testnet_config()),
 		"main" | "mainnet-dev" => Box::new(chain_spec::mainnet::development_config()),

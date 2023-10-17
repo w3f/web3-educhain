@@ -1,9 +1,9 @@
-use cumulus_primitives_core::ParaId;
 use runtime_common::{AccountId, AuraId, Signature};
 use sc_chain_spec::{ChainSpecExtension, ChainSpecGroup};
 use sc_service::ChainType;
 use serde::{Deserialize, Serialize};
 use sp_core::{sr25519, Pair, Public};
+use cumulus_primitives_core::ParaId;
 use sp_runtime::{
 	traits::{IdentifyAccount, Verify},
 	AccountId32,
@@ -294,6 +294,61 @@ pub mod devnet {
 
 pub mod mainnet {
 	use super::*;
+
+	pub fn mainnet_config() -> MainChainSpec {
+		// Give your base currency a unit name and decimal places
+		let mut properties = sc_chain_spec::Properties::new();
+		properties.insert("tokenSymbol".into(), "EDU".into());
+		properties.insert("tokenDecimals".into(), 2.into());
+		properties.insert("ss58Format".into(), 42.into());
+
+		MainChainSpec::from_genesis(
+			// Name
+			"Web3Edu",
+			// ID
+			"web3edu",
+			ChainType::Live,
+			move || {
+				mainnet_genesis(
+					// initial collators.
+					vec![
+						(
+							get_account_id_from_seed::<sr25519::Public>("Alice"),
+							get_collator_keys_from_seed("Alice"),
+						),
+						(
+							get_account_id_from_seed::<sr25519::Public>("Bob"),
+							get_collator_keys_from_seed("Bob"),
+						),
+					],
+					vec![],
+					// Example multisig sudo key configuration:
+					// Configures 2/3 threshold multisig key
+					// Note: For using this multisig key as a sudo key, each individual signatory must possess funds
+					get_multisig_sudo_key(
+						vec![
+							get_account_id_from_seed::<sr25519::Public>("Charlie"),
+							get_account_id_from_seed::<sr25519::Public>("Dave"),
+							get_account_id_from_seed::<sr25519::Public>("Eve"),
+						],
+						2,
+					),
+					PARA_ID.into(),
+				)
+			},
+			Vec::new(),
+			None,
+			None,
+			None,
+			Some(properties),
+			Extensions {
+				relay_chain: "kusama".into(), // You MUST set this to the correct network!
+				para_id: PARA_ID,
+			},
+		)
+	}
+
+
 	pub fn development_config() -> MainChainSpec {
 		// Give your base currency a unit name and decimal places
 		let mut properties = sc_chain_spec::Properties::new();
