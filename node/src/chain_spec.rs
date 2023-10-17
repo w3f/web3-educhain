@@ -1,9 +1,9 @@
+use cumulus_primitives_core::ParaId;
 use runtime_common::{AccountId, AuraId, Signature};
 use sc_chain_spec::{ChainSpecExtension, ChainSpecGroup};
 use sc_service::ChainType;
 use serde::{Deserialize, Serialize};
 use sp_core::{sr25519, Pair, Public};
-use cumulus_primitives_core::ParaId;
 use sp_runtime::{
 	traits::{IdentifyAccount, Verify},
 	AccountId32,
@@ -103,7 +103,7 @@ pub mod devnet {
 		properties.insert("tokenSymbol".into(), "DEV".into());
 		properties.insert("tokenDecimals".into(), 12.into());
 		properties.insert("ss58Format".into(), 42.into());
-		
+
 		DevnetChainSpec::from_genesis(
 			// Name
 			"Development",
@@ -338,7 +338,6 @@ pub mod mainnet {
 			},
 		)
 	}
-
 
 	pub fn development_config() -> MainChainSpec {
 		// Give your base currency a unit name and decimal places
