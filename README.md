@@ -1,4 +1,6 @@
-# Extended Parachain Template
+# Web3 Educhain
+
+**Under development** by the Technical Education team at Web3 Foundation, using the Extended Parachain Template.
 
 The **Extended Parachain Template** is a ready-to-use parachain template, pre-configured with the [Assets](https://paritytech.github.io/substrate/master/pallet_assets/index.html) pallet, a simple Governance system ([Collective](https://paritytech.github.io/substrate/master/pallet_collective/index.html) & [Motion](https://github.com/paritytech/extended-parachain-template/tree/main/pallets/motion) pallets), and other useful base features.
 
