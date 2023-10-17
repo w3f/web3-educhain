@@ -20,7 +20,7 @@ pub type DevnetChainSpec =
 /// The default XCM version to set in genesis config.
 const SAFE_XCM_VERSION: u32 = xcm::prelude::XCM_VERSION;
 
-const PARA_ID: u32 = 2000;
+const PARA_ID: u32 = 2286;
 
 /// Helper function to generate a crypto pair from seed
 pub fn get_from_seed<TPublic: Public>(seed: &str) -> <TPublic::Pair as Pair>::Public {
@@ -103,7 +103,7 @@ pub mod devnet {
 		properties.insert("tokenSymbol".into(), "DEV".into());
 		properties.insert("tokenDecimals".into(), 12.into());
 		properties.insert("ss58Format".into(), 42.into());
-
+		
 		DevnetChainSpec::from_genesis(
 			// Name
 			"Development",
@@ -311,16 +311,7 @@ pub mod mainnet {
 			move || {
 				mainnet_genesis(
 					// initial collators.
-					vec![
-						(
-							get_account_id_from_seed::<sr25519::Public>("Alice"),
-							get_collator_keys_from_seed("Alice"),
-						),
-						(
-							get_account_id_from_seed::<sr25519::Public>("Bob"),
-							get_collator_keys_from_seed("Bob"),
-						),
-					],
+					vec![],
 					vec![],
 					// Example multisig sudo key configuration:
 					// Configures 2/3 threshold multisig key
