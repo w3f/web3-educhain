@@ -294,7 +294,6 @@ pub mod devnet {
 
 pub mod mainnet {
 	use super::*;
-
 	pub fn mainnet_config() -> MainChainSpec {
 		// Give your base currency a unit name and decimal places
 		let mut properties = sc_chain_spec::Properties::new();
@@ -311,7 +310,12 @@ pub mod mainnet {
 			move || {
 				mainnet_genesis(
 					// initial collators.
-					vec![],
+					vec![
+						(
+							get_account_id_from_seed::<sr25519::Public>("Alice"),
+							get_collator_keys_from_seed("Alice"),
+						),
+					],
 					vec![],
 					// Example multisig sudo key configuration:
 					// Configures 2/3 threshold multisig key
