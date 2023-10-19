@@ -27,4 +27,4 @@ bin/*
 zombienet-macos
 zombient-linux-x64
 
-parachain*
+generated/*

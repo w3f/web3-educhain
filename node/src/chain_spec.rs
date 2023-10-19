@@ -1,9 +1,11 @@
+use std::fmt::Debug;
+
 use cumulus_primitives_core::ParaId;
 use runtime_common::{AccountId, AuraId, Signature};
 use sc_chain_spec::{ChainSpecExtension, ChainSpecGroup};
 use sc_service::ChainType;
 use serde::{Deserialize, Serialize};
-use sp_core::{sr25519, Pair, Public};
+use sp_core::{bytes::from_hex, sr25519, Pair, Public};
 use sp_runtime::{
 	traits::{IdentifyAccount, Verify},
 	AccountId32,
@@ -29,20 +31,28 @@ pub fn get_from_seed<TPublic: Public>(seed: &str) -> <TPublic::Pair as Pair>::Pu
 		.public()
 }
 
-pub fn pub_to_collator_key<TPublic: Public>(pubkey: &str) -> <TPublic::Pair as Pair>::Public {
-	TPublic::Pair::from_string(pubkey, None)
-		.expect("invalid public key")
-		.public()
+pub fn pub_to_collator_key(pubkey: &str) -> AuraId {
+	let pubkey = sr25519::Public::from_raw(
+		from_hex(pubkey)
+			.expect("Unable to parse hex")
+			.try_into()
+			.expect("Unable to parse public key"),
+	);
+
+	dbg!(pubkey);
+
+	AuraId::from(pubkey)
 }
 
-pub fn pub_to_account_id<TPublic: Public>(pubkey: &str) -> AccountId
-where
-	AccountPublic: From<<TPublic::Pair as Pair>::Public>,
-{
-	let pubkey = TPublic::Pair::from_string(pubkey, None).expect("invalid public key").public();
-	let id = AccountPublic::from(pubkey).into_account();
-	dbg!(id.clone().to_string());
-	id
+pub fn pub_to_account_id(pubkey: &str) -> AccountId {
+	let pubkey = sr25519::Public::from_raw(
+		from_hex(pubkey)
+			.expect("Unable to parse hex")
+			.try_into()
+			.expect("Unable to parse public key"),
+	);
+	dbg!(pubkey.clone().into_account().to_string());
+	pubkey.into_account().into()
 }
 
 /// The extensions for the [`ChainSpec`].
@@ -109,7 +119,6 @@ pub fn get_multisig_sudo_key(mut authority_set: Vec<AccountId32>, threshold: u16
 		&authority_set[..],
 		threshold,
 	);
-	dbg!(id.clone().to_string());
 	id
 }
 
@@ -318,6 +327,7 @@ pub mod mainnet {
 		properties.insert("tokenSymbol".into(), "EDU".into());
 		properties.insert("tokenDecimals".into(), 12.into());
 		properties.insert("ss58Format".into(), 42.into());
+
 		MainChainSpec::from_genesis(
 			// Name
 			"Web3Edu",
@@ -328,20 +338,31 @@ pub mod mainnet {
 				mainnet_genesis(
 					// initial collators.
 					vec![(
-						pub_to_account_id::<sr25519::Public>("0x80460dbf1dcc3ed518c81067d27eb8278a7a1abcd834ffc79dcc1c35e4a9b64e"),
-						pub_to_collator_key::<AuraId>("0x80460dbf1dcc3ed518c81067d27eb8278a7a1abcd834ffc79dcc1c35e4a9b64e")					
-					)],
+						pub_to_account_id("0xe4ebbf91abe78e706f1d9bcccbd032ce9a4344d6cd9664d87d802955b6369839"),
+						pub_to_collator_key("0xe4ebbf91abe78e706f1d9bcccbd032ce9a4344d6cd9664d87d802955b6369839")					
+					),
+
+					(
+						pub_to_account_id("0xe63f235529b70a9f6db39e86f878ebf1e832f75290199b86d4d6ef6eb694ff71"),
+						pub_to_collator_key("0xe63f235529b70a9f6db39e86f878ebf1e832f75290199b86d4d6ef6eb694ff71")
+					),
+
+					(
+						pub_to_account_id("0x0afe9db4990cb3cf18f5be2db48461c0f753dfdbfffbb99f547db8d745605d48"),
+						pub_to_collator_key("0x0afe9db4990cb3cf18f5be2db48461c0f753dfdbfffbb99f547db8d745605d48")
+					)
+				],
 					vec![],
 					// Example multisig sudo key configuration:
 					// Configures 2/3 threshold multisig key
 					// Note: For using this multisig key as a sudo key, each individual signatory must possess funds
 					get_multisig_sudo_key(
 						vec![
-							pub_to_account_id::<sr25519::Public>("0x80460dbf1dcc3ed518c81067d27eb8278a7a1abcd834ffc79dcc1c35e4a9b64e"),
-							pub_to_account_id::<sr25519::Public>("0x40a6b2797a5499aaba937f5931186ce4ec4831af09c1571f185e68a0a926451a"),
-							pub_to_account_id::<sr25519::Public>("0x8479c8ea5480acca5a847133cd97a87801b6e698a98f2eab0e8e9d5c51b14a33"),
+							pub_to_account_id("0x80460dbf1dcc3ed518c81067d27eb8278a7a1abcd834ffc79dcc1c35e4a9b64e"),
+							pub_to_account_id("0x40a6b2797a5499aaba937f5931186ce4ec4831af09c1571f185e68a0a926451a"),
+							pub_to_account_id("0x8479c8ea5480acca5a847133cd97a87801b6e698a98f2eab0e8e9d5c51b14a33"),
 						],
-						2,
+						1,
 					),
 					PARA_ID.into(),
 				)
