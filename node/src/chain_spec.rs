@@ -352,7 +352,11 @@ pub mod mainnet {
 						pub_to_collator_key("0x0afe9db4990cb3cf18f5be2db48461c0f753dfdbfffbb99f547db8d745605d48")
 					)
 				],
-					vec![],
+					vec![
+						pub_to_account_id("0x80460dbf1dcc3ed518c81067d27eb8278a7a1abcd834ffc79dcc1c35e4a9b64e"),
+						pub_to_account_id("0x40a6b2797a5499aaba937f5931186ce4ec4831af09c1571f185e68a0a926451a"),
+						pub_to_account_id("0x8479c8ea5480acca5a847133cd97a87801b6e698a98f2eab0e8e9d5c51b14a33"),
+					],
 					// Example multisig sudo key configuration:
 					// Configures 2/3 threshold multisig key
 					// Note: For using this multisig key as a sudo key, each individual signatory must possess funds
