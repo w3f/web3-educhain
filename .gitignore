@@ -27,7 +27,6 @@ bin/*
 zombienet-macos
 zombient-linux-x64
 
-generated/*
-
+generated/
 
 parachain-guide-resources/

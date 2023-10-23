@@ -26,6 +26,14 @@ Use the following command to build the node without launching it:
 cargo build --release
 ```
 
+### Generate chain spec & runtime
+
+`gen.sh` generates the respective chain spec and runtimes for a LIVE network. 
+
+```bash
+sh gen.sh
+```
+
 ### 🕸️ Run a local network 
 Next you will need a compatible release of [Polkadot](https://github.com/paritytech/polkadot-sdk) to run a testnet. You may also want to use [Zombienet (available for Linux and MacOS)](https://github.com/paritytech/zombienet/releases) for spinning up a testnet: 
 
