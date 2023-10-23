@@ -319,6 +319,21 @@ pub mod devnet {
 	}
 }
 
+/// Initial collation keys (for now, this is both for rewards and actual authoring)
+pub mod collator_keys {
+	pub const COLLATOR_1: &'static str = "0xe4ebbf91abe78e706f1d9bcccbd032ce9a4344d6cd9664d87d802955b6369839";
+	pub const COLLATOR_2: &'static str = "0xe63f235529b70a9f6db39e86f878ebf1e832f75290199b86d4d6ef6eb694ff71";
+	pub const COLLATOR_3: &'static str = "0x0afe9db4990cb3cf18f5be2db48461c0f753dfdbfffbb99f547db8d745605d48";
+}
+
+
+/// Root key derives from the following cosignatories.
+pub mod multisig_keys {
+	pub const ENDOWED_COSIG_1: &'static str = "0x80460dbf1dcc3ed518c81067d27eb8278a7a1abcd834ffc79dcc1c35e4a9b64e";
+	pub const ENDOWED_COSIG_2: &'static str = "0x40a6b2797a5499aaba937f5931186ce4ec4831af09c1571f185e68a0a926451a";
+	pub const ENDOWED_COSIG_3: &'static str = "0x8479c8ea5480acca5a847133cd97a87801b6e698a98f2eab0e8e9d5c51b14a33";
+}
+
 pub mod mainnet {
 	use super::*;
 	pub fn mainnet_config() -> MainChainSpec {
@@ -338,33 +353,33 @@ pub mod mainnet {
 				mainnet_genesis(
 					// initial collators.
 					vec![(
-						pub_to_account_id("0xe4ebbf91abe78e706f1d9bcccbd032ce9a4344d6cd9664d87d802955b6369839"),
-						pub_to_collator_key("0xe4ebbf91abe78e706f1d9bcccbd032ce9a4344d6cd9664d87d802955b6369839")					
+						pub_to_account_id(collator_keys::COLLATOR_1),
+						pub_to_collator_key(collator_keys::COLLATOR_1)					
 					),
 
 					(
-						pub_to_account_id("0xe63f235529b70a9f6db39e86f878ebf1e832f75290199b86d4d6ef6eb694ff71"),
-						pub_to_collator_key("0xe63f235529b70a9f6db39e86f878ebf1e832f75290199b86d4d6ef6eb694ff71")
+						pub_to_account_id(collator_keys::COLLATOR_2),
+						pub_to_collator_key(collator_keys::COLLATOR_2)
 					),
 
 					(
-						pub_to_account_id("0x0afe9db4990cb3cf18f5be2db48461c0f753dfdbfffbb99f547db8d745605d48"),
-						pub_to_collator_key("0x0afe9db4990cb3cf18f5be2db48461c0f753dfdbfffbb99f547db8d745605d48")
+						pub_to_account_id(collator_keys::COLLATOR_3),
+						pub_to_collator_key(collator_keys::COLLATOR_3)
 					)
 				],
 					vec![
-						pub_to_account_id("0x80460dbf1dcc3ed518c81067d27eb8278a7a1abcd834ffc79dcc1c35e4a9b64e"),
-						pub_to_account_id("0x40a6b2797a5499aaba937f5931186ce4ec4831af09c1571f185e68a0a926451a"),
-						pub_to_account_id("0x8479c8ea5480acca5a847133cd97a87801b6e698a98f2eab0e8e9d5c51b14a33"),
+						pub_to_account_id(multisig_keys::ENDOWED_COSIG_1),
+						pub_to_account_id(multisig_keys::ENDOWED_COSIG_2),
+						pub_to_account_id(multisig_keys::ENDOWED_COSIG_3),
 					],
 					// Example multisig sudo key configuration:
 					// Configures 2/3 threshold multisig key
 					// Note: For using this multisig key as a sudo key, each individual signatory must possess funds
 					get_multisig_sudo_key(
 						vec![
-							pub_to_account_id("0x80460dbf1dcc3ed518c81067d27eb8278a7a1abcd834ffc79dcc1c35e4a9b64e"),
-							pub_to_account_id("0x40a6b2797a5499aaba937f5931186ce4ec4831af09c1571f185e68a0a926451a"),
-							pub_to_account_id("0x8479c8ea5480acca5a847133cd97a87801b6e698a98f2eab0e8e9d5c51b14a33"),
+							pub_to_account_id(multisig_keys::ENDOWED_COSIG_1),
+							pub_to_account_id(multisig_keys::ENDOWED_COSIG_2),
+							pub_to_account_id(multisig_keys::ENDOWED_COSIG_3),
 						],
 						1,
 					),
